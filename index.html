@@ -14,8 +14,10 @@
         $body.html('');
 
         var $refreshMe = $('<button type = "button" id = "refreshMe" style = "color:blue" > Refresh New Tweets Here!</button>');
+        //var $backTop = $('<button type = "button" id = "backTop" style = "color:blue" onClick = "topFunction()"> Back To Top</button>');
         $refreshMe.appendTo($body);
         $('<br></br><br></br>').appendTo('body');
+        //$backTop.appendTo($body);
 
         // tweets created by using streams.home
         $refreshMe.on('click', function(){
@@ -40,7 +42,7 @@
             $tweet.html('<br>' + '@' + userName + ': ' + '<br><br>' + tweet.message + ' ' + '<br>').appendTo($('ul'));
             $tweet.prepend($userClick);
             $tweet.appendTo($body);
-            $('<p style="font-size: 10px"> Tweeted Time: </p>').append(Date($.now())).appendTo($tweet);
+            $('<p style="font-size: 10px"> Tweeted Time: </p>').append(tweet.created_at).appendTo($tweet);
             index -= 1;
             
             $('div #' + tweet.user).on('click', function() {
