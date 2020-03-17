@@ -13,9 +13,20 @@
         var $body = $('body');
         $body.html('');
 
-        var $refreshMe = $('<button type = "buttown" id = "refreshMe" style = "color:blue" onClick="history.go(0)"> Refresh New Tweets Here!</button>');
+        var $refreshMe = $('<button type = "button" id = "refreshMe" style = "color:blue" onClick = "history.go(0)"> Refresh New Tweets Here!</button>');
         $refreshMe.appendTo($body);
         $('<br></br><br></br>').appendTo('body');
+
+        // tweets created by using streams.home
+        $refreshMe.on('click', function(){
+          //var streamsHomeLength = streams.home.length;
+          for(var i = 0; i < 20; i++){
+            generateRandomTweet();
+          }
+          scheduleNextTweet();
+          display();
+
+        });
 
         var display = function (){
           var index = streams.home.length - 1;
@@ -23,7 +34,7 @@
           while(index >= 0){
             var tweet = streams.home[index];
             var $tweet = $('<div id="tweets"></div>');
-            var $userClick = $('<button type="button" style = "color:blue" id='+tweet.user+' data-name="'+tweet.user+'">@'+ tweet.user +'</button>');
+            var $userClick = $('<button type="button" style = "color:blue" id='+tweet.user+' data-name="'+tweet.user+'">'+ tweet.user +'</button>');
             
             var userName = '<a href=# class="user" data-toggle="modal" data-target="#myModal">' + tweet.user + '</a>'
             $tweet.html('<br>' + '@' + userName + ': ' + '<br><br>' + tweet.message + ' ' + '<br>').appendTo($('ul'));
@@ -42,7 +53,7 @@
         }
         
         var userTimeline = function(username){
-          //var $backRefresh = $('<button type = "buttown" id = "backRefresh" style = "color:blue" onClick="history.go(0)"> Refresh New Tweets Here!</button>');
+          var $backRefresh = $('<button type = "button" id = "backRefresh" style = "color:blue" onClick="history.go(0)"> Back To Homepage </button>');
         
           $refreshMe.remove();
           var allTweets = streams.users[username];
@@ -53,12 +64,12 @@
           $allTweets.prepend('@' + username + ' tweets: ');
           for(var i = 0; i < allTweets.length; i++){
             var thisTweet = allTweets[i].message;
-            var thisTime = $('<p style="font-size: 10px">'+username+'Tweeted Time: </p>').append(allTweets[i].created_at);
+            var thisTime = $('<p style="font-size: 10px">'+username+' Tweeted Time: </p>').append(allTweets[i].created_at);
             $allTweets.append(thisTweet);
             $allTweets.append(thisTime);
           }
           $allTweets.appendTo($body);
-          //$backRefresh.appendTo($body);
+          $backRefresh.appendTo($allTweets);
           //document.getElementById("demo").innerHTML = "Hello World";
         }
         display();
